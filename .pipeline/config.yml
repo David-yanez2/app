@@ -40,5 +40,5 @@ steps:
     mtaDeployParameters: "-f --version-rule ALL"
 
   tmsUpload:
-    nodeName: "QUA2"
+    nodeName: "Development-QUA2"
     credentialsId: "tmssk"
