@@ -27,7 +27,7 @@ stages:
     cfSpace: "Development-DEV"
     cfAppName: "app"
     cfCredentialsId: "deploy-to-cf"
-    tmsUpload: true
+    tmsUpload: false
 
 steps:
   artifactPrepareVersion:
@@ -40,5 +40,5 @@ steps:
     mtaDeployParameters: "-f --version-rule ALL"
 
   tmsUpload:
-    nodeName: "Development-QUA2"
-    credentialsId: "tmssk"
+    nodeName: "qa"
+    credentialsId: "tms-sk"

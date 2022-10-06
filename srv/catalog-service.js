@@ -3,12 +3,12 @@ const debug = require('debug')('srv:catalog-service');
 
 module.exports = cds.service.impl(async function () {
 
-    const NeoWs = await cds.connect.to('NearEarthObjectWebService');
+    const s4hcso = await cds.connect.to('API_SALES_ORDER_SRV');
 
     const {
             Sales
             ,
-            Asteroids
+            SalesOrders
           } = this.entities;
 
     this.after('READ', Sales, (each) => {
@@ -55,27 +55,56 @@ module.exports = cds.service.impl(async function () {
         }
     });
 
-
-
-
-
-
-
-
-
-
-
-
-    this.on('READ', Asteroids, async (req) => {
+    this.on('READ', SalesOrders, async (req) => {
         try {
-            const tx = NeoWs.transaction(req);
+            const tx = s4hcso.transaction(req);
             return await tx.send({
-                query: req.query
+                query: req.query,
+                headers: {
+                    'Application-Interface-Key': process.env.ApplicationInterfaceKey,
+
+}
             })
         } catch (err) {
             req.reject(err);
         }
     });
+
+    this.on('largestOrder', Sales, async (req) => {
+        try {
+            const tx1 = cds.tx(req);
+            const res1 = await tx1.read(Sales)
+                .where({ ID: { '=': req.params[0] } })
+                ;
+            let cql = SELECT.one(SalesOrders).where({ SalesOrganization: res1[0].org }).orderBy({ TotalNetAmount: 'desc' });
+            const tx2 = s4hcso.transaction(req);
+            const res2 = await tx2.send({
+                query: cql,
+                headers: {
+                    'Application-Interface-Key': process.env.ApplicationInterfaceKey,
+
+                }
+            });
+            if (res2) {
+                return res2.SoldToParty + ' @ ' + res2.TransactionCurrency + ' ' + Math.round(res2.TotalNetAmount).toString();
+            } else {
+                return 'Not found';
+            }
+        } catch (err) {
+            req.reject(err);
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
 
 
     this.on('userInfo', req => {

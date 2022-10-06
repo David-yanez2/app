@@ -1,6 +1,6 @@
 _schema-version: '3.2'
 ID: app
-version: 0.0.62
+version: 0.0.1
 
 parameters:
   enable-parallel-deployments: true
@@ -51,7 +51,7 @@ modules:
       memory: 512M
       disk-quota: 1024M
     properties:
-      APIKeyNASA: DEMO_KEY
+      ApplicationInterfaceKey: saptest0
     requires:
       - name: app-uaa
       - name: app-dest
@@ -111,9 +111,9 @@ resources:
           instance:
             existing_destinations_policy: ignore
             destinations:
-              - Name: app-NASA-api
-                Description: NASA APIs
-                URL: https://api.nasa.gov
+              - Name: app-API_SALES_ORDER_SRV
+                Description: SAP S/4HANA Cloud Sales Order (A2X)
+                URL: https://sandbox.api.sap.com
                 Type: HTTP
                 ProxyType: Internet
                 Authentication: NoAuthentication

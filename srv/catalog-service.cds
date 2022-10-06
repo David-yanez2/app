@@ -2,6 +2,7 @@ using {app.db as db} from '../db/data-model';
 
 using {CV_SALES, CV_SESSION_INFO} from '../db/data-model';
 
+using { API_SALES_ORDER_SRV } from './external/API_SALES_ORDER_SRV.csn';
 
 
 
@@ -13,7 +14,6 @@ using {CV_SALES, CV_SESSION_INFO} from '../db/data-model';
 
 
 
-using { NearEarthObjectWebService } from './external/NearEarthObjectWebService.csn';
 
 
 service CatalogService @(path : '/catalog')
@@ -29,6 +29,8 @@ service CatalogService @(path : '/catalog')
                   ])
       as select * from db.Sales
       actions {
+        @(restrict: [{ to: 'Viewer' }])
+        function largestOrder() returns String;
         @(restrict: [{ to: 'Admin' }])
         action boost() returns Sales;
       }
@@ -52,21 +54,30 @@ service CatalogService @(path : '/catalog')
       (amount: Integer)
       returns many Sales;
 
-
-
-
-
-
-
-
-
-
-
-
     @readonly
-    entity Asteroids
+    entity SalesOrders
       @(restrict: [{ to: 'Viewer' }])
-      as projection on NearEarthObjectWebService.Feed;
+      as projection on API_SALES_ORDER_SRV.A_SalesOrder {
+          SalesOrder,
+          SalesOrganization,
+          DistributionChannel,
+          SoldToParty,
+          IncotermsLocation1,
+          TotalNetAmount,
+          TransactionCurrency
+        };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     type userScopes { identified: Boolean; authenticated: Boolean; Viewer: Boolean; Admin: Boolean; };

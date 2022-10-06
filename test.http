@@ -28,7 +28,10 @@ Authorization: Basic joe:
 GET http://localhost:4004/catalog/SessionInfo
 Authorization: Basic joe:
 ###
-GET http://localhost:4004/catalog/Asteroids
+GET http://localhost:4004/catalog/SalesOrders?$top=10&$filter=TotalNetAmount%20gt%202000&$orderby=SalesOrder%20desc
+Authorization: Basic joe:
+###
+GET http://localhost:4004/catalog/Sales(9)/CatalogService.largestOrder()
 Authorization: Basic joe:
 ###
 GET http://localhost:4004/catalog/userInfo()
