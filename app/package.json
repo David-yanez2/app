@@ -4,5 +4,6 @@
     },
     "scripts": {
         "start": "node node_modules/@sap/approuter/approuter.js"
-    }
+    },
+    "type": "module"
 }

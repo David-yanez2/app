@@ -1,27 +1,11 @@
-import {
-    AlertNotificationClient,
-    EntityType,
-    BasicAuthentication,
-    RegionUtils,
-    State,
-    Predicate
-} from '@sap_oss/alert-notification-client';
-const client = new AlertNotificationClient({
-    authentication: new BasicAuthentication({
-        username: '406e6c0c-ccc6-4f25-8a06-dd74e73ab457',
-        password: 'yKZpg8yn1VFTuArbKTGQHRsL1gxIoKkW'
-    }),
-    region: RegionUtils.EU10;
-});
 
 const cds = require('@sap/cds');
 const debug = require('debug')('srv:catalog-service');
-
+const alert = require('@sap_oss/alert-notification-client');
 
 module.exports = cds.service.impl(async function () {
 
     const s4hcso = await cds.connect.to('API_SALES_ORDER_SRV');
-
     const {
             Sales
             ,
