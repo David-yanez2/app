@@ -1,0 +1,14 @@
+{
+    "app-db-CELLNEX": {
+        "object_owner": {
+            "roles": [
+                "app_CELLNEX::EXTERNAL_ACCESS_G"
+            ]
+        },
+        "application_user": {
+            "roles": [
+                "app_CELLNEX::EXTERNAL_ACCESS"
+            ]
+        }
+    }
+}
